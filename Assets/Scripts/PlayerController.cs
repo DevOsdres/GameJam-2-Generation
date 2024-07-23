@@ -10,19 +10,19 @@ public class PlayerController : MonoBehaviour
     public float jumpHeight = 2f;
     public float runJumpHeight = 3f;
     public float stamina = 5f; // Duración del sprint en segundos
+    public float staminaRecoveryRate = 0.5f; // Tasa de recuperación de stamina por segundo
+    public float staminaDepletionRate = 1f; // Tasa de agotamiento de stamina por segundo
     [HideInInspector]
     public float currentStamina; // Cambiado a public
-    private bool isRunning;
+
     private CharacterController characterController;
     private Vector3 moveDirection;
     private float verticalSpeed = 0f;
     private bool isGrounded;
+    private bool isRunning;
 
     public int foodCount = 0;
     public int foodNeeded = 10;
-
-    public float staminaRecoveryRate = 0.5f; // Tasa de recuperación de stamina por segundo
-    public float staminaDepletionRate = 1f; // Tasa de agotamiento de stamina por segundo
 
     void Start()
     {
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     public void CollectFood()
     {
-        foodCount=10;
+        foodCount++;
         Debug.Log("Food collected: " + foodCount);
 
         if (foodCount >= foodNeeded)

@@ -42,6 +42,7 @@ public class FoodCollector : MonoBehaviour
 
             if (foodCollected >= foodRequired)
             {
+                Time.timeScale = 0f; // Pausar el juego
                 LevelCompleted();
             }
         }
@@ -71,6 +72,7 @@ public class FoodCollector : MonoBehaviour
 
     void ReturnHome()
     {
+        Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
         SceneManager.LoadScene("Home");
     }
 }

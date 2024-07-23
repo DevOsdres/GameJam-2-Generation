@@ -11,10 +11,10 @@ public class PlayerProgress : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject); // No destruir al cargar una nueva escena
     }
-    
-    // Método para incrementar el nivel actual del jugador
+
     public void LevelCompleted()
     {
         currentLevel++;
+        Debug.Log("Level completed! Current level: " + currentLevel);
     }
 }
