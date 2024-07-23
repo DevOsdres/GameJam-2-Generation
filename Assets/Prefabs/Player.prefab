@@ -996,6 +996,7 @@ GameObject:
   - component: {fileID: 252832197811535710}
   - component: {fileID: 3770635800709892894}
   - component: {fileID: 7357092773716344520}
+  - component: {fileID: 5551878138126368815}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1032,7 +1033,7 @@ Animator:
   m_GameObject: {fileID: 252832197818911970}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: a58d63122b09e9144938cd6a1ece4824, type: 3}
-  m_Controller: {fileID: 9100000, guid: b60dc9aa529b314489f628aa3b57c470, type: 2}
+  m_Controller: {fileID: 9100000, guid: 05d468ddf19d0a041a995d5a195c6166, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1060,7 +1061,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 1.09, z: 0}
 --- !u!114 &7357092773716344520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1076,14 +1077,23 @@ MonoBehaviour:
   walkSpeed: 2
   runSpeed: 5
   rotationSpeed: 300
-  jumpHeight: 2
-  runJumpHeight: 3
   stamina: 5
   currentStamina: 0
-  foodCount: 0
-  foodNeeded: 10
   staminaRecoveryRate: 0.5
   staminaDepletionRate: 1
+--- !u!65 &5551878138126368815
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252832197818911970}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.5423456, z: 1}
+  m_Center: {x: 0, y: 0.7288272, z: 0}
 --- !u!1 &252832197818911972
 GameObject:
   m_ObjectHideFlags: 0

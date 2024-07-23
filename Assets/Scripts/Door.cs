@@ -11,7 +11,6 @@ public class Door : MonoBehaviour
     public TextMeshProUGUI confirmationText; // Texto en el Canvas
     public Button acceptButton; // Botón de aceptar
     public Button cancelButton; // Botón de cancelar
-    public int targetLevel; // Nivel objetivo
 
     private PlayerProgress playerProgress; // Progreso del jugador
 
@@ -35,6 +34,7 @@ public class Door : MonoBehaviour
 
     void ShowConfirmation()
     {
+        int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
         confirmationCanvas.gameObject.SetActive(true);
         confirmationText.text = $"Enter to Level {targetLevel}. You are about to leave your home, you will leave your children without knowing if you will return, are you sure about this?";
     }
@@ -43,9 +43,9 @@ public class Door : MonoBehaviour
     {
         confirmationCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
+        int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
         if (playerProgress.currentLevel == targetLevel - 1)
         {
-            Debug.Log($"Loading scene: Level{targetLevel}");
             SceneManager.LoadScene($"Level{targetLevel}");
         }
         else
@@ -53,7 +53,6 @@ public class Door : MonoBehaviour
             Debug.Log("Cannot load the level. Current level progress does not match the target level.");
         }
     }
-
 
     void OnCancel()
     {
