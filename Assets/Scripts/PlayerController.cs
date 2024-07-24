@@ -7,34 +7,40 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 5f;
     public float runSpeed = 10f;
     public float rotationSpeed = 720f;
-    public float jumpHeight = 2f;
-    public float runJumpHeight = 3f;
-    public float stamina = 5f; // Duración del sprint en segundos
-    public float staminaRecoveryRate = 0.5f; // Tasa de recuperación de stamina por segundo
-    public float staminaDepletionRate = 1f; // Tasa de agotamiento de stamina por segundo
+    public float stamina = 5f;
     [HideInInspector]
-    public float currentStamina; // Cambiado a public
+    public float currentStamina;
 
+    public float staminaRecoveryRate = 0.5f;
+    public float staminaDepletionRate = 1f;
+
+    private bool isRunning;
     private CharacterController characterController;
     private Vector3 moveDirection;
-    private float verticalSpeed = 0f;
-    private bool isGrounded;
-    private bool isRunning;
-
-    public int foodCount = 0;
-    public int foodNeeded = 10;
+    private Animator animator;
+    private bool isAttacking = false;
+    private bool isDefending = false;
+    private float attackCooldown = 0.5f; // Tiempo de enfriamiento entre ataques
+    private float lastAttackTime = 0f;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
         currentStamina = stamina;
+        
+        // Ocultar y bloquear el cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
         Move();
         Rotate();
-        Jump();
+        HandleAttack();
+        HandleDefend();
+        HandleAnimations(); // Llamar a la función de manejo de animaciones
     }
 
     void Move()
@@ -55,67 +61,110 @@ public class PlayerController : MonoBehaviour
 
         currentStamina = Mathf.Clamp(currentStamina, 0, stamina);
 
-        float moveDirectionY = moveDirection.y;
-        moveDirection = transform.forward * Input.GetAxis("Vertical") * speed;
-        moveDirection.y = moveDirectionY;
+        float verticalInput = Input.GetAxis("Vertical");
+        moveDirection = transform.forward * verticalInput * speed;
 
-        if (characterController.isGrounded)
-        {
-            verticalSpeed = -1f;
-            if (Input.GetButtonDown("Jump"))
-            {
-                verticalSpeed = Mathf.Sqrt(isRunning ? runJumpHeight : jumpHeight * -2f * Physics.gravity.y);
-            }
-        }
-        else
-        {
-            verticalSpeed += Physics.gravity.y * Time.deltaTime;
-        }
+        characterController.SimpleMove(moveDirection);
 
-        moveDirection.y = verticalSpeed;
-        characterController.Move(moveDirection * Time.deltaTime);
+        // Actualizar animaciones
+        float movementMagnitude = moveDirection.magnitude;
+        animator.SetFloat("Speed", movementMagnitude);
+        animator.SetBool("IsWalking", movementMagnitude > 0 && !isRunning);
+        animator.SetBool("IsRunning", isRunning && movementMagnitude > 0);
     }
 
     void Rotate()
     {
-        float rotation = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float mouseRotation = Input.GetAxis("Mouse X");
+
+        float rotation = (horizontalInput + mouseRotation) * rotationSpeed * Time.deltaTime;
         transform.Rotate(0, rotation, 0);
-
-        float mouseRotation = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
-        transform.Rotate(0, mouseRotation, 0);
     }
 
-    void Jump()
+    void HandleAttack()
     {
-        if (characterController.isGrounded)
+        if (Input.GetMouseButtonDown(0) && !isAttacking && Time.time > lastAttackTime + attackCooldown)
         {
-            isGrounded = true;
-            if (Input.GetButtonDown("Jump"))
-            {
-                verticalSpeed = Mathf.Sqrt((isRunning ? runJumpHeight : jumpHeight) * -2f * Physics.gravity.y);
-            }
-        }
-        else
-        {
-            isGrounded = false;
-            verticalSpeed += Physics.gravity.y * Time.deltaTime;
+            isAttacking = true;
+            lastAttackTime = Time.time;
+            animator.SetTrigger("Attack");
+            // Aumentar la velocidad de la animación de ataque
+            animator.speed = 1.5f; // Ajusta este valor para hacer el ataque más rápido
+            StartCoroutine(ResetAttackState());
         }
     }
 
-    public void CollectFood()
+    void HandleDefend()
     {
-        foodCount++;
-        Debug.Log("Food collected: " + foodCount);
-
-        if (foodCount >= foodNeeded)
+        if (Input.GetMouseButtonDown(1) && !isDefending)
         {
-            ReturnToNest();
+            StartDefending();
+        }
+        else if (Input.GetMouseButtonUp(1) && isDefending)
+        {
+            StopDefending();
+        }
+
+        // Mantener la defensa si el botón está presionado
+        if (Input.GetMouseButton(1))
+        {
+            ContinueDefending();
         }
     }
 
-    void ReturnToNest()
+    void StartDefending()
     {
-        // Código para regresar al nido
-        Debug.Log("Returned to nest with enough food!");
+        isDefending = true;
+        animator.SetBool("Defend", true);
+        // Aumentar la velocidad de la animación de defensa al inicio
+        animator.speed = 1.5f; // Ajusta este valor para hacer la defensa más rápida
+    }
+
+    void StopDefending()
+    {
+        isDefending = false;
+        animator.SetBool("Defend", false);
+        animator.speed = 1f; // Restaurar la velocidad normal de animación
+    }
+
+    void ContinueDefending()
+    {
+        // Asegurarse de que la animación de defensa se mantenga
+        if (!animator.GetBool("Defend"))
+        {
+            animator.SetBool("Defend", true);
+        }
+        animator.speed = 1f; // Velocidad normal para la animación continua
+    }
+
+    IEnumerator ResetAttackState()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
+        animator.speed = 1f; // Restaurar la velocidad normal de animación
+    }
+
+    void HandleAnimations()
+    {
+        float speed = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).magnitude;
+
+        animator.SetFloat("Speed", speed);
+        animator.SetBool("IsRunning", isRunning);
+        animator.SetBool("IsAttacking", isAttacking);
+        animator.SetBool("Defend", isDefending);
+    }
+
+    public void TakeDamage()
+    {
+        animator.SetTrigger("GetHit");
+        // Aquí puedes añadir lógica adicional para recibir daño
+    }
+
+    // Método para manejar la muerte del personaje
+    public void Die()
+    {
+        animator.SetTrigger("Die");
+        // Aquí puedes añadir lógica adicional para la muerte del personaje
     }
 }
