@@ -273,6 +273,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1907025061, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
+      propertyPath: returnHomeButton
+      value: 
+      objectReference: {fileID: 1432718156}
+    - target: {fileID: 1907025061, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
+      propertyPath: levelCompleteCanvas
+      value: 
+      objectReference: {fileID: 1395286035}
     - target: {fileID: 252832197818486914, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -558,25 +566,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1907025056 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 252832197818911970, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
-  m_PrefabInstance: {fileID: 998796107}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1907025061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907025056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cb41b68b1cf1c341a30b82a428b41cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelCompleteCanvas: {fileID: 1395286035}
-  returnHomeButton: {fileID: 1432718156}
 --- !u!1001 &2071257623
 PrefabInstance:
   m_ObjectHideFlags: 0

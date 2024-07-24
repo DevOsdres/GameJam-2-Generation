@@ -284,6 +284,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1907025061, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
+      propertyPath: returnHomeButton
+      value: 
+      objectReference: {fileID: 1845768975}
+    - target: {fileID: 1907025061, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
+      propertyPath: levelCompleteCanvas
+      value: 
+      objectReference: {fileID: 1845768974}
     - target: {fileID: 252832197818486914, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
       propertyPath: m_RootOrder
       value: 3
