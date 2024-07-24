@@ -56,14 +56,14 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             canDoubleJump = false;
-            animator.SetBool("Jump", false); // Se asegura de que la animación de salto esté desactivada
+            animator.SetBool("IsJumping", false); // Se asegura de que la animación de salto esté desactivada
         }
     }
 
     void Move()
     {
         // Permitir correr solo si la estamina es suficiente
-        if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 2.5f)
         {
             isRunning = true;
             currentStamina -= staminaDepletionRate * Time.deltaTime;
@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour
 
         // Actualiza la animación solo si la estamina permite correr
         animator.SetFloat("Speed", speed);
-        animator.SetBool("IsRunning", isRunning && currentStamina > 0); // Solo permitir correr si la estamina es mayor a 2.5
+        animator.SetBool("IsRunning", isRunning && currentStamina > 2.5f); // Solo permitir correr si la estamina es mayor a 2.5
         animator.SetBool("IsWalking", !isRunning && speed > 0);
         animator.SetBool("IsAttacking", isAttacking);
         animator.SetBool("Defend", isDefending);
