@@ -19,6 +19,17 @@ public class Cactus : MonoBehaviour
     private void Update()
     {
         // Verificar la distancia al jugador
+        float probabilidad = Random.Range(1,100);
+        float ProbabilidadSuceder = 8;
+
+        if (probabilidad <= ProbabilidadSuceder)
+        {   
+            animatorCactus.SetBool("Mov", true);
+        }
+        else
+        {
+            animatorCactus.SetBool("Mov", false);
+        }
         if (DistanceToPlayer() < 5f)
         {
             MoveTowardsPlayer();
@@ -38,7 +49,7 @@ public class Cactus : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider collision){    //deja de c
+    private void OnTriggerExit(Collider collision){    //deja de detectar, no ejecuta mas animacion ataque
         if (collision.gameObject.CompareTag("Player"))
         {
             isColliding = false;

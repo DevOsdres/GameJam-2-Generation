@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_TerrainAutoUpgrade.meta
+guid: 36aa00f96aa5dc3469a1a5870086c4c9
+folderAsset: yes
+========
 guid: 2d204999bc6ee554ea96d8f41b10b77d
+>>>>>>>> d372bb6e8b08ca4e5d5028b5d593dd3393320788:Assets/Arte/UI/Buttons/cga_ui_gold.ai.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
