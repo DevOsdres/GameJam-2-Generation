@@ -14,6 +14,8 @@ public class FoodCollector : MonoBehaviour
 
     void Start()
     {
+        foodCollected = 0; // Reiniciar el contador de comida recolectada al inicio de la escena
+
         if (levelCompleteCanvas != null)
         {
             levelCompleteCanvas.SetActive(false); // Esconder el Canvas al inicio
@@ -35,15 +37,23 @@ public class FoodCollector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Trigger entered with: " + other.gameObject.name); // Depuración: Nombre del objeto con el que se colisiona
+
         if (other.CompareTag("Food"))
         {
-            foodCollected=10;
+            foodCollected += 10; // Cada objeto comida vale 10 puntos
+            Debug.Log("Food collected: " + foodCollected);
             Destroy(other.gameObject);
 
             if (foodCollected >= foodRequired)
             {
+                Time.timeScale = 0f; // Pausar el juego
                 LevelCompleted();
             }
+        }
+        else
+        {
+            Debug.Log("Collided object is not tagged as Food");
         }
     }
 
@@ -71,6 +81,7 @@ public class FoodCollector : MonoBehaviour
 
     void ReturnHome()
     {
+        Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
         SceneManager.LoadScene("Home");
     }
 }
