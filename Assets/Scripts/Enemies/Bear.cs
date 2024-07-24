@@ -128,7 +128,7 @@ public class Bear : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
             
 
-            // Rota la araña suavemente hacia la dirección del jugador
+            // Rota el oso suavemente hacia la dirección del jugador
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
 
             // Movimiento hacia el jugador si es necesario

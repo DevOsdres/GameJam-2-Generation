@@ -127,7 +127,7 @@ public class Spider : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
             
             // Invertir la rotación en 180 grados alrededor del eje Y
-            Quaternion invertRotation = Quaternion.AngleAxis(180f, Vector3.up);
+            Quaternion invertRotation = Quaternion.AngleAxis(180f, Vector3.up); //Debido a que por algun motivo la araña aparece alreves, toca hacerlo
             Quaternion adjustedRotation = targetRotation * invertRotation;
 
             // Rota la araña suavemente hacia la dirección del jugador
