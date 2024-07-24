@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
         currentStamina = stamina;
 
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
+        // Ocultar y bloquear el cursor
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
