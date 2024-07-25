@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 1300167004}
   - component: {fileID: 1300167003}
   - component: {fileID: 1300167002}
+  - component: {fileID: 1300167005}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -334,6 +335,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1300167005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300167001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eb74c4237431e84d98b211ee98ceb76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonClickSFX: {fileID: 8300000, guid: 0f91bf715dd8c5a46ab202324523b85d, type: 3}
+  music1: {fileID: 8300000, guid: 24a12979a07cfec4b90d29bfe64b4a5f, type: 3}
+  music2: {fileID: 8300000, guid: 271502f81c322d44c8ab34c6af883ba6, type: 3}
 --- !u!1 &1319838511
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +638,6 @@ MonoBehaviour:
   sfxAudioSource: {fileID: 1621923923}
   musicAudioSource1: {fileID: 1319838512}
   musicAudioSource2: {fileID: 224084749}
-  firstMusicSourceIsPlaying: 0
 --- !u!4 &1726595477
 Transform:
   m_ObjectHideFlags: 0
