@@ -1,22 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Spider : MonoBehaviour
 {
     public float radius = 1.0f; // Radio del movimiento en círculos
     public float speed = 2.0f; // Velocidad de movimiento
 
+    public Transform[] waypoints;  // Array para almacenar los puntos de ruta
+    private int currentWaypoint = 0;  // Índice del punto de ruta actual
+    public float rotationSpeed = 5f; // Velocidad de rotación hacia puntos de ruta
     private GameObject player;
     private Animator animatorSpider; 
     private Vector3 startPos;
     private Rigidbody enemyRb;
 
+    
+    public Transform objetivo;
+    private NavMeshAgent agente;
+    public float detectionDistance;
     private bool isColliding  = false; //con el enemigo
 
+    public bool isDead = false;
     // Start is called before the first frame update
     void Start()
     {
+        
+        //agente = GetComponent<NavMeshAgent>();
+        
+        //transform.position = waypoints[0].position;
         startPos = transform.position; // Inicializamos la posición de inicio y el animator
         animatorSpider = GetComponent<Animator>();
         enemyRb = GetComponent<Rigidbody>();
@@ -26,15 +40,38 @@ public class Spider : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!isColliding)
-        {
-            Movement();
+        
+        //UnityEngine.Debug.Log(DistanceToPlayer());
+        //isDead = true;
+        
+        if (!isDead)
+        {        
+            if (DistanceToPlayer() < detectionDistance)
+            {
+                //agente.destination = objetivo.position;
+                MoveTowardsPlayer();
+                if (!isColliding)
+                {
+                    Movement();
+                }
+                else
+                {
+                    bool transitionAni = true;
+                    Attack(transitionAni);
+                }
+
+            }else
+            {
+                animatorSpider.SetBool("walk", true);
+                MoveTowardsWaypoint();
+            }
         }
         else
         {
-            bool transitionAni = true;
-            Attack(transitionAni);
+           
+            animatorSpider.SetBool("dead", true);
         }
+
                            
     }
 
@@ -50,6 +87,40 @@ public class Spider : MonoBehaviour
         
 
 
+    }
+
+    void MoveTowardsWaypoint()
+    {
+        // Obtener la dirección hacia el punto de ruta actual
+        Vector3 targetPosition = waypoints[currentWaypoint].position;
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
+         // Rotar suavemente hacia el punto de ruta actual
+        RotateTowards(targetPosition);
+
+        // Mover al enemigo en dirección al punto de ruta actual
+        transform.position += moveDirection * speed * Time.deltaTime;
+
+        // Verificar si el enemigo ha llegado lo suficientemente cerca del punto de ruta actual
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        {
+            // Avanzar al siguiente punto de ruta
+            currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
+        }
+    }
+
+    void RotateTowards(Vector3 targetPosition)
+    {
+        // Calcular la dirección hacia el punto de ruta
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        // Invertir la rotación en 180 grados alrededor del eje Y
+        Quaternion invertRotation = Quaternion.AngleAxis(180f, Vector3.up); //Debido a que por algun motivo la araña aparece alreves, toca hacerlo
+        Quaternion adjustedRotation = targetRotation * invertRotation;
+
+        // Rotar suavemente hacia la dirección del punto de ruta
+        transform.rotation = Quaternion.Slerp(transform.rotation, adjustedRotation, rotationSpeed * Time.deltaTime);
     }
 
     private void Attack(bool transitionAnim)
@@ -116,6 +187,28 @@ public class Spider : MonoBehaviour
         isColliding = false;
 
     }
+
+    private void MoveTowardsPlayer()
+    {
+        if (player != null)
+        {
+            // Calcular la dirección hacia el jugador
+            Vector3 lookDirection = (player.transform.position - transform.position).normalized;
+            
+            // Calcula la rotación que debería tener para mirar hacia el jugador
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+            
+            // Invertir la rotación en 180 grados alrededor del eje Y
+            Quaternion invertRotation = Quaternion.AngleAxis(180f, Vector3.up); //Debido a que por algun motivo la araña aparece alreves, toca hacerlo
+            Quaternion adjustedRotation = targetRotation * invertRotation;
+
+            // Rota la araña suavemente hacia la dirección del jugador
+            transform.rotation = Quaternion.Slerp(transform.rotation, adjustedRotation, Time.deltaTime * speed);
+
+            // Mover hacia el jugador
+            //transform.position += direction * speed * Time.deltaTime;
+        }
+    }
     private void DetectEnemy()
     {
         if (player != null)
@@ -127,7 +220,7 @@ public class Spider : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
             
             // Invertir la rotación en 180 grados alrededor del eje Y
-            Quaternion invertRotation = Quaternion.AngleAxis(180f, Vector3.up);
+            Quaternion invertRotation = Quaternion.AngleAxis(180f, Vector3.up); //Debido a que por algun motivo la araña aparece alreves, toca hacerlo
             Quaternion adjustedRotation = targetRotation * invertRotation;
 
             // Rota la araña suavemente hacia la dirección del jugador
@@ -142,7 +235,7 @@ public class Spider : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Player GameObject not found. Make sure it exists in the scene.");
+            UnityEngine.Debug.LogError("Player GameObject not found. Make sure it exists in the scene.");
         }
     }
 
@@ -158,5 +251,18 @@ public class Spider : MonoBehaviour
             animatorSpider.SetBool("attack1", false);
             animatorSpider.SetBool("walk", false);
         }
+
+
+    private float DistanceToPlayer()
+    {
+        // Calcular la distancia al jugador
+        if (player != null)
+        {
+            return Vector3.Distance(transform.position, player.transform.position);
+        }
+        return Mathf.Infinity; // Retorna infinito si el jugador no está disponible
+    }
+
+
 
 }
