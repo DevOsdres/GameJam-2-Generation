@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 5f;
     public float rotationSpeed = 300f;
     public float stamina = 5f;
-    public float jumpHeight = 2f;
     public float staminaRecoveryRate = 0.5f;
     public float staminaDepletionRate = 1f;
 
@@ -17,14 +16,12 @@ public class PlayerController : MonoBehaviour
     public float currentStamina;
 
     private bool isRunning;
-    private bool canDoubleJump;
     private Rigidbody rb;
     private Animator animator;
     private bool isAttacking = false;
     private bool isDefending = false;
     private float attackCooldown = 0.5f;
     private float lastAttackTime = 0f;
-    private bool isGrounded;
 
     void Start()
     {
@@ -33,15 +30,10 @@ public class PlayerController : MonoBehaviour
         currentStamina = stamina;
 
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-
-        // Ocultar y bloquear el cursor
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        GroundCheck();
         if (!isDefending && !isAttacking)
         {
             Move();
@@ -50,23 +42,11 @@ public class PlayerController : MonoBehaviour
         Rotate();
         HandleAttack();
         HandleDefend();
-        HandleJump();
         HandleAnimations();
-    }
-
-    void GroundCheck()
-    {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
-        if (isGrounded)
-        {
-            canDoubleJump = false;
-            animator.SetBool("IsJumping", false); // Se asegura de que la animación de salto esté desactivada
-        }
     }
 
     void Move()
     {
-        // Permitir correr solo si la estamina es suficiente
         if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 2.5f)
         {
             isRunning = true;
@@ -83,19 +63,11 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        // Define la dirección del movimiento
         Vector3 moveDirection = (transform.forward * verticalInput + transform.right * horizontalInput).normalized;
         float speed = isRunning ? runSpeed : walkSpeed;
         moveDirection *= speed;
 
-        if (isGrounded)
-        {
-            rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
-        }
-        else
-        {
-            rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
-        }
+        rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
 
         float movementMagnitude = new Vector3(moveDirection.x, 0, moveDirection.z).magnitude;
         animator.SetFloat("Speed", movementMagnitude);
@@ -166,31 +138,12 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
 
-    void HandleJump()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (isGrounded)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, Mathf.Sqrt(jumpHeight * 2f * 9.81f), rb.velocity.z);
-                animator.SetTrigger("Jump");
-            }
-            else if (isRunning && !canDoubleJump)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, Mathf.Sqrt(jumpHeight * 2f * 9.81f), rb.velocity.z);
-                canDoubleJump = true;
-                animator.SetTrigger("Jump");
-            }
-        }
-    }
-
     void HandleAnimations()
     {
         float speed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
 
-        // Actualiza la animación solo si la estamina permite correr
         animator.SetFloat("Speed", speed);
-        animator.SetBool("IsRunning", isRunning && currentStamina > 2.5f); // Solo permitir correr si la estamina es mayor a 2.5
+        animator.SetBool("IsRunning", isRunning && currentStamina > 2.5f);
         animator.SetBool("IsWalking", !isRunning && speed > 0);
         animator.SetBool("IsAttacking", isAttacking);
         animator.SetBool("Defend", isDefending);
