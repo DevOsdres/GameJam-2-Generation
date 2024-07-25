@@ -2,22 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bear : MonoBehaviour
+public class Bear : MonoBehaviour  //algunas variables son de la araña por que reutilice mucho codigo y no tuve tiempo de cambiarlo
 {
     public float radius = 1.0f; // Radio del movimiento en círculos
     public float speed = 2.0f; // Velocidad de movimiento
 
+    public Transform[] waypoints;  // Array para almacenar los puntos de ruta
+    private int currentWaypoint = 0;  // Índice del punto de ruta actual
+    public float rotationSpeed = 5f; // Velocidad de rotación hacia puntos de ruta
     private GameObject player;
     private Animator animatorSpider; 
     private Vector3 startPos;
     private Rigidbody enemyRb;
-
+    public float detectionDistance;
     private bool isColliding  = false; //con el enemigo
+
+    public bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        startPos = transform.position; // Inicializamos la posición de inicio y el animator
+        //startPos = transform.position; // Inicializamos la posición de inicio y el animator
         animatorSpider = GetComponent<Animator>();
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player"); 
@@ -26,14 +31,32 @@ public class Bear : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!isColliding)
+        //isDead = true;
+
+        if (!isDead)
+        {        
+            if (DistanceToPlayer() < detectionDistance)
+                {
+                    //MoveTowardsPlayer();
+                    if (!isColliding)
+                    {
+                        Movement();
+                    }
+                    else
+                    {
+                        bool transitionAni = true;
+                        Attack(transitionAni);
+                    }
+
+                }else
+                {
+                    animatorSpider.SetBool("walk", true);
+                    MoveTowardsWaypoint();
+                }
+        }else
         {
-            Movement();
-        }
-        else
-        {
-            bool transitionAni = true;
-            Attack(transitionAni);
+           
+            animatorSpider.SetBool("dead", true);
         }
                            
     }
@@ -50,6 +73,48 @@ public class Bear : MonoBehaviour
         
 
 
+    }
+
+    void MoveTowardsWaypoint()
+    {
+        // Obtener la dirección hacia el punto de ruta actual
+        Vector3 targetPosition = waypoints[currentWaypoint].position;
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
+         // Rotar suavemente hacia el punto de ruta actual
+        RotateTowards(targetPosition);
+
+        // Mover al enemigo en dirección al punto de ruta actual
+        transform.position += moveDirection * speed * Time.deltaTime;
+
+        // Verificar si el enemigo ha llegado lo suficientemente cerca del punto de ruta actual
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        {
+            // Avanzar al siguiente punto de ruta
+            currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
+        }
+    }
+
+
+    private float DistanceToPlayer()
+    {
+        // Calcular la distancia al jugador
+        if (player != null)
+        {
+            return Vector3.Distance(transform.position, player.transform.position);
+        }
+        return Mathf.Infinity; // Retorna infinito si el jugador no está disponible
+    }
+
+    void RotateTowards(Vector3 targetPosition)
+    {
+        // Calcular la dirección hacia el punto de ruta
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+
+        // Rotar suavemente hacia la dirección del punto de ruta
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     private void Attack(bool transitionAnim)

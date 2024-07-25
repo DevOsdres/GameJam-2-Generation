@@ -8,6 +8,8 @@ public class Cactus : MonoBehaviour
 
     Animator animatorCactus;
     bool isColliding = false;
+
+    bool isDead = false;
     private void Start()
     {
         // Buscar al jugador por su tag
@@ -19,24 +21,33 @@ public class Cactus : MonoBehaviour
     private void Update()
     {
         // Verificar la distancia al jugador
-        float probabilidad = Random.Range(1,100);
-        float ProbabilidadSuceder = 8;
+        //isDead = true;
 
-        if (probabilidad <= ProbabilidadSuceder)
-        {   
-            animatorCactus.SetBool("Mov", true);
-        }
-        else
+        if (!isDead)
         {
-            animatorCactus.SetBool("Mov", false);
-        }
-        if (DistanceToPlayer() < 5f)
-        {
-            MoveTowardsPlayer();
-            if (isColliding)
-            {
+            float probabilidad = Random.Range(1,100);
+            float ProbabilidadSuceder = 8;
 
+            if (probabilidad <= ProbabilidadSuceder)
+            {   
+                animatorCactus.SetBool("Mov", true);
             }
+            else
+            {
+                animatorCactus.SetBool("Mov", false);
+            }
+            if (DistanceToPlayer() < 5f)
+            {
+                MoveTowardsPlayer();
+                if (isColliding)
+                {
+
+                }
+            }
+        }else
+        {
+           
+            animatorCactus.SetBool("dead", true);
         }
     }
 
