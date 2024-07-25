@@ -44,7 +44,7 @@ public class Door : MonoBehaviour
     void OnAccept()
     {
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         confirmationCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
         int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
@@ -61,7 +61,7 @@ public class Door : MonoBehaviour
     void OnCancel()
     {
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         confirmationCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f; // Reanudar el juego
     }

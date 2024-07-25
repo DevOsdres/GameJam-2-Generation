@@ -49,7 +49,7 @@ public class MainMenuController : MonoBehaviour
         creditsPanel.SetActive(false);
         Time.timeScale = 1f;
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void QuitGame()
