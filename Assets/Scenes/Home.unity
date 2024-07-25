@@ -1855,6 +1855,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498349985}
   m_CullTransparentMesh: 1
+--- !u!1 &516019975 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5104568052510942279, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+  m_PrefabInstance: {fileID: 701542198}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &516019978
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516019975}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 2.3789098}
+  m_Center: {x: 0.000071476956, y: 0.5, z: -0.008475265}
 --- !u!1 &542224255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2324,6 +2342,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2333494625030427844, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081392, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Size.y
+      value: 2.421641
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081392, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Size.z
+      value: 0.04946591
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081392, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081392, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081392, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Center.y
+      value: 1.172855
+      objectReference: {fileID: 0}
     - target: {fileID: 3110276859314081406, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -2367,6 +2409,34 @@ PrefabInstance:
     - target: {fileID: 3110276859314081406, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081407, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Size.y
+      value: 2.4216406
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081407, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Size.z
+      value: 0.04946591
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081407, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081407, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081407, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Center.y
+      value: 1.1728551
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110276859314081407, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_Center.z
+      value: -2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4633439820503148448, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.014
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e729f0c1abe377a49bcadf46bf65c8ef, type: 3}
@@ -5206,12 +5276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f49be0c33ec8344ad0968ef09226f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenu: {fileID: 1102555848}
-  OptionsMenu: {fileID: 635100940}
-  PauseMenu: {fileID: 0}
-  CreditsMenu: {fileID: 389902112}
-  acceptButton: {fileID: 1350303167}
-  targetLevel: 0
 --- !u!1 &1772383138
 GameObject:
   m_ObjectHideFlags: 0

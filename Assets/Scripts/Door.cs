@@ -34,6 +34,8 @@ public class Door : MonoBehaviour
 
     void ShowConfirmation()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
         confirmationCanvas.gameObject.SetActive(true);
         confirmationText.text = $"Enter to Level {targetLevel}. You are about to leave your home, you will leave your children without knowing if you will return, are you sure about this?";
@@ -41,6 +43,8 @@ public class Door : MonoBehaviour
 
     void OnAccept()
     {
+        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
         confirmationCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
         int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
@@ -56,6 +60,8 @@ public class Door : MonoBehaviour
 
     void OnCancel()
     {
+        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
         confirmationCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f; // Reanudar el juego
     }
