@@ -1,9 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 
 public class FoodCollector : MonoBehaviour
 {
@@ -37,12 +34,9 @@ public class FoodCollector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger entered with: " + other.gameObject.name); // Depuración: Nombre del objeto con el que se colisiona
-
         if (other.CompareTag("Food"))
         {
-            foodCollected += 10; // Cada objeto comida vale 10 puntos
-            Debug.Log("Food collected: " + foodCollected);
+            foodCollected++; // Incrementar el contador de comida recolectada
             Destroy(other.gameObject);
 
             if (foodCollected >= foodRequired)
@@ -51,16 +45,13 @@ public class FoodCollector : MonoBehaviour
                 LevelCompleted();
             }
         }
-        else
-        {
-            Debug.Log("Collided object is not tagged as Food");
-        }
     }
 
     void LevelCompleted()
     {
         if (levelCompleteCanvas != null)
         {
+            Cursor.visible = true;
             levelCompleteCanvas.SetActive(true);
         }
         else
@@ -68,20 +59,13 @@ public class FoodCollector : MonoBehaviour
             Debug.LogError("Level Complete Canvas not assigned in the inspector.");
         }
 
-        PlayerProgress playerProgress = FindObjectOfType<PlayerProgress>();
-        if (playerProgress != null)
-        {
-            playerProgress.LevelCompleted();
-        }
-        else
-        {
-            Debug.LogError("PlayerProgress script not found in the scene.");
-        }
+        PlayerProgress.Instance.LevelCompleted(); // Registrar la finalización del nivel en el progreso del jugador
+        PlayerProgress.Instance.collectedFoodCount = foodCollected; // Guardar la cantidad de comida recolectada
     }
 
     void ReturnHome()
     {
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
-        SceneManager.LoadScene("Home");
+        SceneManager.LoadScene(0);
     }
 }

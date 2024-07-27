@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -72,5 +70,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f; // Reanuda el tiempo de juego
         Cursor.visible = false; // Oculta el cursor
         //Cursor.lockState = CursorLockMode.Locked; // Bloquea el cursor en el centro de la pantalla
+    }
+    public int ActualSceneNumber()
+    {
+        return SceneManager.GetActiveScene().buildIndex;
     }
 }

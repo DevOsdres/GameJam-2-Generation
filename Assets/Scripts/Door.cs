@@ -11,57 +11,90 @@ public class Door : MonoBehaviour
     public TextMeshProUGUI confirmationText; // Texto en el Canvas
     public Button acceptButton; // Botón de aceptar
     public Button cancelButton; // Botón de cancelar
-
-    private PlayerProgress playerProgress; // Progreso del jugador
+    private bool isPlayerNearDoor = false; // Estado para saber si el jugador está cerca de la puerta
 
     void Start()
     {
-        confirmationCanvas.gameObject.SetActive(false); // Esconde el Canvas al inicio
-        playerProgress = FindObjectOfType<PlayerProgress>(); // Encuentra el script PlayerProgress en la escena
+        if (confirmationCanvas != null)
+        {
+            confirmationCanvas.gameObject.SetActive(false); // Esconde el Canvas al inicio
+        }
+        else
+        {
+            Debug.LogError("Confirmation Canvas not assigned in the inspector.");
+        }
 
-        acceptButton.onClick.AddListener(OnAccept);
-        cancelButton.onClick.AddListener(OnCancel);
+        if (acceptButton != null)
+        {
+            acceptButton.onClick.AddListener(OnAccept);
+        }
+        else
+        {
+            Debug.LogError("Accept Button not assigned in the inspector.");
+        }
+
+        if (cancelButton != null)
+        {
+            cancelButton.onClick.AddListener(OnCancel);
+        }
+        else
+        {
+            Debug.LogError("Cancel Button not assigned in the inspector.");
+        }
     }
 
-    void OnTriggerStay(Collider other)
+    void Update()
     {
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && isPlayerNearDoor)
         {
             Time.timeScale = 0f; // Pausar el juego
             ShowConfirmation();
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isPlayerNearDoor = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isPlayerNearDoor = false;
+        }
+    }
+
     void ShowConfirmation()
     {
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
+        int targetLevel = PlayerProgress.Instance.currentLevel + 1; 
         confirmationCanvas.gameObject.SetActive(true);
         confirmationText.text = $"Enter to Level {targetLevel}. You are about to leave your home, you will leave your children without knowing if you will return, are you sure about this?";
     }
 
     void OnAccept()
     {
-        Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
-        confirmationCanvas.gameObject.SetActive(false);
-        Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
-        int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
-        if (playerProgress.currentLevel == targetLevel - 1)
+        if (PlayerProgress.Instance.HasDeliveredFood())
         {
-            SceneManager.LoadScene($"Level{targetLevel}");
+            Cursor.visible = false;
+            confirmationCanvas.gameObject.SetActive(false);
+            Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
+            int targetLevel = PlayerProgress.Instance.currentLevel + 1; // Determinar automáticamente el nivel objetivo
+            SceneManager.LoadScene(targetLevel);
         }
         else
         {
-            Debug.Log("Cannot load the level. Current level progress does not match the target level.");
+            Debug.Log("Cannot load the level. You must deliver food to your children before proceeding.");
         }
     }
 
     void OnCancel()
     {
         Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
         confirmationCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f; // Reanudar el juego
     }

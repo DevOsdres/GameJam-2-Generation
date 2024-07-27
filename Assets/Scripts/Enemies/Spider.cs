@@ -18,7 +18,7 @@ public class Spider : MonoBehaviour
     private Rigidbody enemyRb;
 
     
-    //public Transform objetivo; //esto era para el navmesh
+    public Transform objetivo;
     private NavMeshAgent agente;
     public float detectionDistance;
     private bool isColliding  = false; //con el enemigo
