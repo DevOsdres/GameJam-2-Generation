@@ -61,6 +61,7 @@ public class FoodCollector : MonoBehaviour
     {
         if (levelCompleteCanvas != null)
         {
+            Cursor.visible = true;
             levelCompleteCanvas.SetActive(true);
         }
         else
@@ -82,6 +83,6 @@ public class FoodCollector : MonoBehaviour
     void ReturnHome()
     {
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
-        SceneManager.LoadScene("Home");
+        SceneManager.LoadScene(0);
     }
 }

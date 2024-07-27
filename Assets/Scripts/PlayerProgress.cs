@@ -5,11 +5,19 @@ using UnityEngine.UI;
 
 public class PlayerProgress : MonoBehaviour
 {
+    public static PlayerProgress Instance {get; private set;}
     public int currentLevel = 0; // Nivel actual del jugador
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject); // No destruir al cargar una nueva escena
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // No destruir al cargar una nueva escena
+        }
+        else{
+            Destroy(this.gameObject);
+        }
     }
 
     public void LevelCompleted()

@@ -5,94 +5,103 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    public float walkSpeed = 3f;
-    public float runSpeed = 5f;
+    public float speed, maxSpeed;
+    float movX, movZ;
     public float rotationSpeed = 300f;
     public float stamina = 5f;
     public float staminaRecoveryRate = 0.5f;
     public float staminaDepletionRate = 1f;
+    public float currentStamina;
+    [SerializeField]private bool isAttacking = false;
 
     [HideInInspector]
-    public float currentStamina;
-
-    private bool isRunning;
+    private bool isCharging;
     private Rigidbody rb;
     private Animator animator;
-    private bool isAttacking = false;
     private bool isDefending = false;
-    private float attackCooldown = 0.5f;
-    private float lastAttackTime = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         currentStamina = stamina;
-
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     void Update()
     {
-        if (!isDefending && !isAttacking)
+        movZ = Input.GetAxis("Vertical");
+        movX = Input.GetAxis("Horizontal");
+        switch (isAttacking || isDefending)
         {
-            Move();
+            case true:
+                rb.Sleep();
+            break;
+        
+            case false:
+
+                if (movZ!=0 || movX !=0)
+                {
+                    Move();
+                }
+                else
+                {
+                    animator.SetFloat("Speed", 0f);
+                }
+
+                if(currentStamina <= 0.6f && !isCharging)
+                {
+                    isCharging = true;
+                    StartCoroutine(ResetStamina());
+                }
+                else
+                {
+                    StopCoroutine(ResetStamina());
+                }
+
+            break;
         }
 
+        if(!isPlaying("Attack"))
+        {
+            isAttacking = false;
+        }
+          
         Rotate();
         HandleAttack();
         HandleDefend();
-        HandleAnimations();
     }
 
     void Move()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 2.5f)
+        currentStamina = Mathf.Clamp(currentStamina, 0, stamina);
+        Vector3 moveDirection = transform.forward * movZ + transform.right *movX;
+
+        if (Input.GetKey(KeyCode.LeftShift) && currentStamina >= 0.6f && movZ ==1)
         {
-            isRunning = true;
             currentStamina -= staminaDepletionRate * Time.deltaTime;
+            rb.MovePosition(transform.position + moveDirection * maxSpeed);
+            animator.SetFloat("Speed", 0.6f);
         }
         else
         {
-            isRunning = false;
-            currentStamina += staminaRecoveryRate * Time.deltaTime;
+            rb.MovePosition(transform.position + moveDirection * speed);
+            animator.SetFloat("Speed", 0.2f);
         }
-
-        currentStamina = Mathf.Clamp(currentStamina, 0, stamina);
-
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
-
-        Vector3 moveDirection = (transform.forward * verticalInput + transform.right * horizontalInput).normalized;
-        float speed = isRunning ? runSpeed : walkSpeed;
-        moveDirection *= speed;
-
-        rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
-
-        float movementMagnitude = new Vector3(moveDirection.x, 0, moveDirection.z).magnitude;
-        animator.SetFloat("Speed", movementMagnitude);
-        animator.SetBool("IsWalking", movementMagnitude > 0 && !isRunning);
-        animator.SetBool("IsRunning", isRunning && movementMagnitude > 0);
     }
 
     void Rotate()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
         float mouseRotation = Input.GetAxis("Mouse X");
-
-        float rotation = (horizontalInput + mouseRotation) * rotationSpeed * Time.deltaTime;
+        float rotation = mouseRotation * rotationSpeed * Time.deltaTime;
         transform.Rotate(0, rotation, 0);
     }
 
     void HandleAttack()
     {
-        if (Input.GetMouseButtonDown(0) && !isAttacking && Time.time > lastAttackTime + attackCooldown)
+        if (Input.GetMouseButtonDown(0))
         {
             isAttacking = true;
-            lastAttackTime = Time.time;
-            animator.SetBool("IsAttacking", true);
-            animator.speed = 1.5f;
-            StartCoroutine(ResetAttackState());
+            animator.SetTrigger("Attack");
         }
     }
 
@@ -138,23 +147,11 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
 
-    void HandleAnimations()
+    IEnumerator ResetStamina()
     {
-        float speed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
-
-        animator.SetFloat("Speed", speed);
-        animator.SetBool("IsRunning", isRunning && currentStamina > 2.5f);
-        animator.SetBool("IsWalking", !isRunning && speed > 0);
-        animator.SetBool("IsAttacking", isAttacking);
-        animator.SetBool("Defend", isDefending);
-    }
-
-    IEnumerator ResetAttackState()
-    {
-        yield return new WaitForSeconds(attackCooldown);
-        isAttacking = false;
-        animator.SetBool("IsAttacking", false);
-        animator.speed = 1f;
+        yield return new WaitForSeconds(5);
+        currentStamina = stamina;
+        isCharging = false;
     }
 
     public void TakeDamage()
@@ -165,5 +162,12 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         animator.SetTrigger("Die");
+    }
+    bool isPlaying(string stateName)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+            return true;
+        else
+                return false;
     }
 }

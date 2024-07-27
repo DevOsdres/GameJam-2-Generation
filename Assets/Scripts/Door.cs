@@ -11,32 +11,43 @@ public class Door : MonoBehaviour
     public TextMeshProUGUI confirmationText; // Texto en el Canvas
     public Button acceptButton; // Botón de aceptar
     public Button cancelButton; // Botón de cancelar
-
-    private PlayerProgress playerProgress; // Progreso del jugador
-
+    bool isPlayerFrontDoor;
     void Start()
     {
         confirmationCanvas.gameObject.SetActive(false); // Esconde el Canvas al inicio
-        playerProgress = FindObjectOfType<PlayerProgress>(); // Encuentra el script PlayerProgress en la escena
-
         acceptButton.onClick.AddListener(OnAccept);
         cancelButton.onClick.AddListener(OnCancel);
     }
 
-    void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
+    private void Update() {
+
+
+        if(Input.GetKeyDown(KeyCode.F) && isPlayerFrontDoor)
         {
             Time.timeScale = 0f; // Pausar el juego
             ShowConfirmation();
+        }
+        
+    }
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isPlayerFrontDoor = true;
+        }
+    }
+    void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isPlayerFrontDoor = false;
         }
     }
 
     void ShowConfirmation()
     {
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
+        int targetLevel = PlayerProgress.Instance.currentLevel; 
         confirmationCanvas.gameObject.SetActive(true);
         confirmationText.text = $"Enter to Level {targetLevel}. You are about to leave your home, you will leave your children without knowing if you will return, are you sure about this?";
     }
@@ -44,13 +55,13 @@ public class Door : MonoBehaviour
     void OnAccept()
     {
         Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
         confirmationCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
-        int targetLevel = playerProgress.currentLevel + 1; // Determinar automáticamente el nivel objetivo
-        if (playerProgress.currentLevel == targetLevel - 1)
+        int targetLevel = PlayerProgress.Instance.currentLevel+1; 
+         // Determinar automáticamente el nivel objetivo
+        if (PlayerProgress.Instance.currentLevel == targetLevel - 1)
         {
-            SceneManager.LoadScene($"Level{targetLevel}");
+            SceneManager.LoadScene(targetLevel);
         }
         else
         {
@@ -61,7 +72,6 @@ public class Door : MonoBehaviour
     void OnCancel()
     {
         Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
         confirmationCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f; // Reanudar el juego
     }
