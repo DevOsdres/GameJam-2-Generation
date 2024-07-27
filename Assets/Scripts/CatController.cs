@@ -18,16 +18,20 @@ public class CatController : MonoBehaviour
     void Start()
     {
         transform.position = waypoints[0].position;
+        animatorCat = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         MoveTowardsWaypoint();
     }
 
     void MoveTowardsWaypoint()
     {
+        animatorCat.SetBool("walk",true);
+        
         // Obtener la dirección hacia el punto de ruta actual
         Vector3 targetPosition = waypoints[currentWaypoint].position;
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
@@ -42,7 +46,9 @@ public class CatController : MonoBehaviour
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
             // Avanzar al siguiente punto de ruta
-            currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
+            currentWaypoint = Random.Range(0,waypoints.Length);
+            
+            //currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
         }
     }
 

@@ -1103,7 +1103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 1
-  speed: 3
+  speed: 2
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
