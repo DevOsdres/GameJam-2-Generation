@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class FoodCollector : MonoBehaviour
@@ -7,11 +10,10 @@ public class FoodCollector : MonoBehaviour
     public GameObject levelCompleteCanvas; // Canvas que muestra al completar el nivel
     public Button returnHomeButton; // Botón para regresar al hogar
     private int foodRequired = 10; // Cantidad de comida requerida
-    private int foodCollected = 0; // Cantidad de comida recolectada
 
     void Start()
     {
-        foodCollected = 0; // Reiniciar el contador de comida recolectada al inicio de la escena
+        PlayerProgress.Instance.collectedFoodCount = 0; // Reiniciar el contador de comida recolectada al inicio de la escena
 
         if (levelCompleteCanvas != null)
         {
@@ -34,16 +36,23 @@ public class FoodCollector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Trigger entered with: " + other.gameObject.name); // Depuración: Nombre del objeto con el que se colisiona
+
         if (other.CompareTag("Food"))
         {
-            foodCollected++; // Incrementar el contador de comida recolectada
+            PlayerProgress.Instance.collectedFoodCount += 1; // Incrementar la cantidad de comida recolectada
+            Debug.Log("Food collected: " + PlayerProgress.Instance.collectedFoodCount);
             Destroy(other.gameObject);
 
-            if (foodCollected >= foodRequired)
+            if (PlayerProgress.Instance.collectedFoodCount >= foodRequired)
             {
                 Time.timeScale = 0f; // Pausar el juego
                 LevelCompleted();
             }
+        }
+        else
+        {
+            Debug.Log("Collided object is not tagged as Food");
         }
     }
 
@@ -59,13 +68,20 @@ public class FoodCollector : MonoBehaviour
             Debug.LogError("Level Complete Canvas not assigned in the inspector.");
         }
 
-        PlayerProgress.Instance.LevelCompleted(); // Registrar la finalización del nivel en el progreso del jugador
-        PlayerProgress.Instance.collectedFoodCount = foodCollected; // Guardar la cantidad de comida recolectada
+        PlayerProgress playerProgress = PlayerProgress.Instance;
+        if (playerProgress != null)
+        {
+            playerProgress.LevelCompleted();
+        }
+        else
+        {
+            Debug.LogError("PlayerProgress script not found in the scene.");
+        }
     }
 
     void ReturnHome()
     {
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
