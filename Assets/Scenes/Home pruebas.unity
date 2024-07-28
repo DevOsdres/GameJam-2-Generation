@@ -7380,7 +7380,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1512319390}
         m_TargetAssemblyTypeName: PauseMenuController, Assembly-CSharp
-        m_MethodName: MainMenu
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10676,71 +10676,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4ebbdece38b9604782cd94529ce20a7, type: 3}
---- !u!1001 &6579640004160802254
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 98.92982
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -331.9564
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 832.42004
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1222482986724422778, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2603519809674872819, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_Name
-      value: PauseMenu (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2895557100559696608, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1512319390}
-    - target: {fileID: 8962062107255444636, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1512319390}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ba084715b72e7e34b987cc94edfe1726, type: 3}
 --- !u!1001 &8864899906990332921
 PrefabInstance:
   m_ObjectHideFlags: 0

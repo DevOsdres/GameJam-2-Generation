@@ -42,10 +42,10 @@ public class PauseMenuController : MonoBehaviour
         isPaused = false;
     }
 
-    public void MainMenu()
+    /*public void MainMenu()
     {
         SceneManager.LoadScene(0); // Cargar la escena principal (menú)
-    }
+    }*/
 
     public void RestartGame()
     {
