@@ -45,6 +45,7 @@ public class PlayerProgress : MonoBehaviour
     public void IncrementLevel()
     {
         currentLevel++;
+        foodDelivered = false; // Resetear al avanzar de nivel
         Debug.Log("Incremented to Level: " + currentLevel);
     }
 
