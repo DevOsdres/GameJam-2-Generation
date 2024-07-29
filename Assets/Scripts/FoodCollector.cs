@@ -1,20 +1,19 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class FoodCollector : MonoBehaviour
 {
     public GameObject levelCompleteCanvas; // Canvas que muestra al completar el nivel
     public Button returnHomeButton; // Botón para regresar al hogar
     private int foodRequired = 10; // Cantidad de comida requerida
-    private int foodCollected = 0; // Cantidad de comida recolectada
 
     void Start()
     {
-        foodCollected = 0; // Reiniciar el contador de comida recolectada al inicio de la escena
+        PlayerProgress.Instance.collectedFoodCount = 0; // Reiniciar el contador de comida recolectada al inicio de la escena
 
         if (levelCompleteCanvas != null)
         {
@@ -41,11 +40,11 @@ public class FoodCollector : MonoBehaviour
 
         if (other.CompareTag("Food"))
         {
-            foodCollected += 10; // Cada objeto comida vale 10 puntos
-            Debug.Log("Food collected: " + foodCollected);
+            PlayerProgress.Instance.collectedFoodCount += 1; // Incrementar la cantidad de comida recolectada
+            Debug.Log("Food collected: " + PlayerProgress.Instance.collectedFoodCount);
             Destroy(other.gameObject);
 
-            if (foodCollected >= foodRequired)
+            if (PlayerProgress.Instance.collectedFoodCount >= foodRequired)
             {
                 Time.timeScale = 0f; // Pausar el juego
                 LevelCompleted();
@@ -69,7 +68,7 @@ public class FoodCollector : MonoBehaviour
             Debug.LogError("Level Complete Canvas not assigned in the inspector.");
         }
 
-        PlayerProgress playerProgress = FindObjectOfType<PlayerProgress>();
+        PlayerProgress playerProgress = PlayerProgress.Instance;
         if (playerProgress != null)
         {
             playerProgress.LevelCompleted();
@@ -83,6 +82,6 @@ public class FoodCollector : MonoBehaviour
     void ReturnHome()
     {
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }

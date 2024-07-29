@@ -1,57 +1,76 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject mainMenuCanvas; // Referencia al Canvas del menú principal
-    public GameObject pauseCanvas; // Referencia al Canvas del menú de pausa
-    //public PauseMenu pauseMenu; // Referencia al script PauseMenu asignado a PauseCanvas
+    public static GameManager Instance { get; private set; }
 
-    private bool isGameRunning = false; // Variable para verificar si el juego está en curso
-    private bool isPaused = false; // Variable para verificar si el juego está pausado
+    public GameObject mainMenuCanvas;
+    public GameObject pauseCanvas;
+
+    private bool isGameStarted = false;
+    private bool isPaused = false;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
-        ShowMainMenu(); // Muestra el menú principal al iniciar el juego
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        ShowMainMenu();
     }
 
     void ShowMainMenu()
     {
-        mainMenuCanvas.SetActive(true); // Activa el Canvas del menú principal
-        Time.timeScale = 0f; // Pausa el juego
-        Cursor.visible = true; // Hace visible el cursor
-        //Cursor.lockState = CursorLockMode.None; // Desbloquea el cursor
+        if (mainMenuCanvas != null)
+        {
+            mainMenuCanvas.SetActive(true);
+            pauseCanvas.SetActive(false);
+            Time.timeScale = 0f;
+            Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Debug.LogError("MainMenuCanvas no encontrado");
+        }
     }
 
     public void StartGame()
     {
-        mainMenuCanvas.SetActive(false); // Desactiva el Canvas del menú principal
-        Time.timeScale = 1f; // Reanuda el juego
-        Cursor.visible = false; // Oculta el cursor
-        //Cursor.lockState = CursorLockMode.Locked; // Bloquea el cursor en el centro de la pantalla
-        isGameRunning = true; // Marca el juego como en curso
+        isGameStarted = true;
+        mainMenuCanvas.SetActive(false);
+        pauseCanvas.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void CheckPause()
     {
+        if (!isGameStarted) return;
+
         isPaused = !isPaused;
-        if(isPaused)
-        {
-            pauseCanvas.SetActive(true); // Activa el Canvas del menú de pausa
-            Time.timeScale = 0f; // Pausa el juego
-            Cursor.visible = true; // Hace visible el cursor
-        }
-        else
-        {
-            pauseCanvas.SetActive(false); // Desactiva el Canvas del menú de pausa
-            Time.timeScale = 1f; // Reanuda el juego
-            //Cursor.visible = false; // Hace visible el cursor
-        }
+        pauseCanvas.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0f : 1f;
+        Cursor.visible = isPaused;
+        //Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
     void Update()
     {
-        if (!mainMenuCanvas.activeInHierarchy && Input.GetKeyDown(KeyCode.P)) // Verifica si el juego está en curso y se presiona la tecla Escape
+        if (isGameStarted && Input.GetKeyDown(KeyCode.P))
         {
             CheckPause();
         }
@@ -59,20 +78,36 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        isGameRunning = false; // Marca el juego como no en curso
-        Time.timeScale = 1f; // Asegura que el tiempo de juego esté en marcha
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Recarga la escena actual
+        isGameStarted = false;
+        isPaused = false;
+        Time.timeScale = 0f;
+        SceneManager.LoadScene(0);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Recarga los canvas en cada escena si no se encuentran
+        if (mainMenuCanvas == null || pauseCanvas == null)
+        {
+            mainMenuCanvas = GameObject.Find("MainMenuCanvas");
+            pauseCanvas = GameObject.Find("PauseCanvas");
+        }
+
+        if (scene.buildIndex == 0)
+        {
+            ShowMainMenu();
+            // Descomentar si deseas quitar el listener después de usarlo
+            // SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
 
     public void ResumeGame()
     {
-        pauseCanvas.SetActive(false); // Desactiva el Canvas del menú de pausa
-        Time.timeScale = 1f; // Reanuda el tiempo de juego
-        Cursor.visible = false; // Oculta el cursor
-        //Cursor.lockState = CursorLockMode.Locked; // Bloquea el cursor en el centro de la pantalla
-    }
-    public int ActualSceneNumber()
-    {
-        return SceneManager.GetActiveScene().buildIndex;
+        isPaused = false;
+        pauseCanvas.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 }

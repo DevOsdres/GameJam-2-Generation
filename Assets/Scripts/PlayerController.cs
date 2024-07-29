@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private bool isCharging;
     private Rigidbody rb;
     private Animator animator;
+
+    public Slider staminaSlider; // Referencia al Slider de UI
     private bool isDefending = false;
 
     void Start()
@@ -25,21 +27,27 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         currentStamina = stamina;
+        
+        // Configurar el Slider de estamina
+        if (staminaSlider != null)
+        {
+            staminaSlider.maxValue = stamina;
+            staminaSlider.value = currentStamina;
+        }
     }
 
     void Update()
     {
         movZ = Input.GetAxis("Vertical");
         movX = Input.GetAxis("Horizontal");
+
         switch (isAttacking || isDefending)
         {
             case true:
                 rb.Sleep();
-            break;
-        
+                break;
             case false:
-
-                if (movZ!=0 || movX !=0)
+                if (movZ != 0 || movX != 0)
                 {
                     Move();
                 }
@@ -48,7 +56,7 @@ public class PlayerController : MonoBehaviour
                     animator.SetFloat("Speed", 0f);
                 }
 
-                if(currentStamina <= 0.6f && !isCharging)
+                if (currentStamina <= 0.6f && !isCharging)
                 {
                     isCharging = true;
                     StartCoroutine(ResetStamina());
@@ -58,25 +66,31 @@ public class PlayerController : MonoBehaviour
                     StopCoroutine(ResetStamina());
                 }
 
-            break;
+                break;
         }
 
-        if(!isPlaying("Attack"))
+        if (!isPlaying("Attack"))
         {
             isAttacking = false;
         }
-          
+        
         Rotate();
         HandleAttack();
         HandleDefend();
+
+        // Actualizar el valor del Slider de estamina
+        if (staminaSlider != null)
+        {
+            staminaSlider.value = currentStamina;
+        }
     }
 
     void Move()
     {
         currentStamina = Mathf.Clamp(currentStamina, 0, stamina);
-        Vector3 moveDirection = transform.forward * movZ + transform.right *movX;
+        Vector3 moveDirection = transform.forward * movZ + transform.right * movX;
 
-        if (Input.GetKey(KeyCode.LeftShift) && currentStamina >= 0.6f && movZ ==1)
+        if (Input.GetKey(KeyCode.LeftShift) && currentStamina >= 0.6f && movZ == 1)
         {
             currentStamina -= staminaDepletionRate * Time.deltaTime;
             rb.MovePosition(transform.position + moveDirection * maxSpeed);
@@ -163,11 +177,9 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Die");
     }
+
     bool isPlaying(string stateName)
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
-            return true;
-        else
-                return false;
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 }
