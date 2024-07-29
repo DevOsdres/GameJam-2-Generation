@@ -71,24 +71,39 @@ public class Door : MonoBehaviour
     void ShowConfirmation()
     {
         Cursor.visible = true;
-        int targetLevel = PlayerProgress.Instance.currentLevel + 1; 
+        int targetLevel = PlayerProgress.Instance.currentLevel + 1;
         confirmationCanvas.gameObject.SetActive(true);
         confirmationText.text = $"Enter to Level {targetLevel}. You are about to leave your home, you will leave your children without knowing if you will return, are you sure about this?";
     }
 
     void OnAccept()
     {
-        if (PlayerProgress.Instance.HasDeliveredFood())
+        Cursor.visible = false;
+        confirmationCanvas.gameObject.SetActive(false);
+        Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
+
+        int targetLevel = PlayerProgress.Instance.currentLevel + 1;
+
+        // Depuración para verificar las condiciones
+        Debug.Log("Current Level: " + PlayerProgress.Instance.currentLevel);
+        Debug.Log("Has Completed Level: " + PlayerProgress.Instance.hasCompletedLevel);
+        Debug.Log("Food Delivered: " + PlayerProgress.Instance.foodDelivered);
+        Debug.Log("First Time Leaving Home: " + PlayerProgress.Instance.firstTimeLeavingHome);
+
+        // Permitir avanzar si es la primera vez que se sale del "Home" o si se ha completado el nivel y entregado comida
+        if (PlayerProgress.Instance.firstTimeLeavingHome ||
+            (PlayerProgress.Instance.hasCompletedLevel && PlayerProgress.Instance.HasDeliveredFood()))
         {
-            Cursor.visible = false;
-            confirmationCanvas.gameObject.SetActive(false);
-            Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
-            int targetLevel = PlayerProgress.Instance.currentLevel + 1; // Determinar automáticamente el nivel objetivo
-            SceneManager.LoadScene(targetLevel);
+            PlayerProgress.Instance.firstTimeLeavingHome = false; // Solo se debe establecer en falso si se está saliendo por primera vez
+            PlayerProgress.Instance.IncrementLevel();
+            Debug.Log("Loading Level: " + PlayerProgress.Instance.currentLevel);
+
+            // Cargar la siguiente escena según el índice
+            SceneManager.LoadScene(targetLevel + 1);
         }
         else
         {
-            Debug.Log("Cannot load the level. You must deliver food to your children before proceeding.");
+            Debug.Log("Cannot load the level. You must complete the level and deliver food to your children before proceeding.");
         }
     }
 
