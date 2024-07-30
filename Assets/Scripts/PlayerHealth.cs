@@ -15,39 +15,27 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "Home")
-        {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            gameObject.SetActive(true);
-        }
         currentHealth = maxHealth;
         UpdateHealthUI();
     }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateHealthUI();
-
-        if (currentHealth <= 0)
+        if (currentHealth > 0)
         {
-            Die();
-        }
-        else
-        {
-            GetComponent<PlayerController>().TakeDamage(); // Reproduce la animación de ser golpeado
-        }
-    }
+            currentHealth -= damage;
+            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+            UpdateHealthUI();
 
-    public void Heal(int amount)
-    {
-        currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateHealthUI();
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+            else
+            {
+                GetComponent<PlayerController>().TakeDamage(); // Reproduce la animación de ser golpeado
+            }
+        }
     }
 
     private void UpdateHealthUI()
@@ -68,7 +56,8 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player has died.");
-        GetComponent<PlayerController>().Die(); // Reproduce la animación de morir
-        // Aquí puedes agregar lógica adicional, como mostrar una pantalla de Game Over.
+        GetComponent<PlayerController>().Die(); // Reproduce la animación de muerte
+        Time.timeScale = 0f; // Pausa el juego
+        SceneManager.LoadScene("GameOver"); // Asegúrate de que la escena se llame correctamente
     }
 }

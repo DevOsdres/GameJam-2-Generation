@@ -8,6 +8,7 @@ TagManager:
   - FxTemporaire
   - Obstacle
   - Obstcales
+  - Enemy
   layers:
   - Default
   - TransparentFX
