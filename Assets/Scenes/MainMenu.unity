@@ -2354,8 +2354,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Move\t-\tW\nBack\t-\tS\nTurn L\t-\tA\nTurn R\t-\tD\nRun\t\t-\tHold Shift\nAttack\t-\tL
-    Click\nDefend\t-\tHold R Click"
+  m_text: "Move\t-\tW\nBack\t-\tS\nTurn L\t-\tA\nTurn R\t-\tD\nInteract\t-\tF\nRun\t\t-\tHold
+    Shift\nAttack\t-\tL Click\nDefend\t-\tHold R Click"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 389ac98223d523d4cb52354f7b818ab2, type: 2}
   m_sharedMaterial: {fileID: -3842890343650408142, guid: 389ac98223d523d4cb52354f7b818ab2, type: 2}
