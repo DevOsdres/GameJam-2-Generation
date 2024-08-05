@@ -5,6 +5,12 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    // Variables de audio
+    [SerializeField] AudioClip deathSound;
+    [SerializeField] AudioClip takeDamageSound;
+    [SerializeField] AudioClip atackSound;
+    [SerializeField] AudioClip defenseSound; 
+    [SerializeField] AudioClip walkSound, runSound;   
     public float speed, maxSpeed;
     float movX, movZ;
     public float rotationSpeed = 300f;
@@ -12,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public float staminaRecoveryRate = 0.5f;
     public float staminaDepletionRate = 1f;
     public float currentStamina;
-    [SerializeField] private bool isAttacking = false;
+    [SerializeField]private bool isAttacking = false;
 
     [HideInInspector]
     private bool isCharging;
@@ -21,13 +27,14 @@ public class PlayerController : MonoBehaviour
 
     public Slider staminaSlider; // Referencia al Slider de UI
     private bool isDefending = false;
+    private bool isRunning;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         currentStamina = stamina;
-
+        
         // Configurar el Slider de estamina
         if (staminaSlider != null)
         {
@@ -41,37 +48,40 @@ public class PlayerController : MonoBehaviour
         movZ = Input.GetAxis("Vertical");
         movX = Input.GetAxis("Horizontal");
 
-        if (isAttacking || isDefending)
+        switch (isAttacking || isDefending)
         {
-            rb.Sleep();
-        }
-        else
-        {
-            if (movZ != 0 || movX != 0)
-            {
-                Move();
-            }
-            else
-            {
-                animator.SetFloat("Speed", 0f);
-            }
+            case true:
+                rb.Sleep();
+                break;
+            case false:
+                if (movZ != 0 || movX != 0)
+                {
+                    Move();
+                }
+                else
+                {
+                    animator.SetFloat("Speed", 0f);
+                     
+                }
 
-            if (currentStamina <= 0.6f && !isCharging)
-            {
-                isCharging = true;
-                StartCoroutine(ResetStamina());
-            }
-            else
-            {
-                StopCoroutine(ResetStamina());
-            }
+                if (currentStamina <= 0.6f && !isCharging)
+                {
+                    isCharging = true;
+                    StartCoroutine(ResetStamina());
+                }
+                else
+                {
+                    StopCoroutine(ResetStamina());
+                }
+
+                break;
         }
 
         if (!isPlaying("Attack"))
         {
             isAttacking = false;
         }
-
+        
         Rotate();
         HandleAttack();
         HandleDefend();
@@ -90,12 +100,14 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift) && currentStamina >= 0.6f && movZ == 1)
         {
+            isRunning = true;
             currentStamina -= staminaDepletionRate * Time.deltaTime;
             rb.MovePosition(transform.position + moveDirection * maxSpeed);
             animator.SetFloat("Speed", 0.6f);
         }
         else
         {
+            isRunning = false; 
             rb.MovePosition(transform.position + moveDirection * speed);
             animator.SetFloat("Speed", 0.2f);
         }
@@ -112,6 +124,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            AudioManager2.Instance.PlaySFX(atackSound);
             isAttacking = true;
             animator.SetTrigger("Attack");
         }
@@ -168,18 +181,19 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage()
     {
+        AudioManager2.Instance.PlaySFX(takeDamageSound);
         animator.SetTrigger("GetHit");
-        Debug.Log("Player took damage");
     }
 
     public void Die()
     {
+        AudioManager2.Instance.PlaySFX(deathSound);
         animator.SetTrigger("Die");
-        Debug.Log("Player died");
     }
 
     bool isPlaying(string stateName)
     {
         return animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
+
 }

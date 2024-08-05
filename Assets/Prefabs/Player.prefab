@@ -1073,6 +1073,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ba9fe213fc9e64784a207b2f8bd2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSound: {fileID: 8300000, guid: 184eec203d1bb364fa4701013b6fb4c8, type: 3}
+  takeDamageSound: {fileID: 8300000, guid: 2bf1c1bda29214a4d97b9d0b1999ef7a, type: 3}
+  atackSound: {fileID: 8300000, guid: ab6921fa83ef25f4187df8ea4b11525d, type: 3}
+  defenseSound: {fileID: 8300000, guid: a27091199b1905c4cb54b5d9a8af7fc9, type: 3}
+  walkSound: {fileID: 8300000, guid: fedd2e94ac3a61c43b980f19e91f52ef, type: 3}
+  runSound: {fileID: 8300000, guid: 445dc5a4002401545bcfe4e6b81a53f9, type: 3}
   speed: 0.08
   maxSpeed: 0.12
   rotationSpeed: 300
@@ -1081,6 +1087,7 @@ MonoBehaviour:
   staminaDepletionRate: 1
   currentStamina: 0
   isAttacking: 0
+  staminaSlider: {fileID: 0}
 --- !u!136 &4104479657028498234
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1109,6 +1116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelCompleteCanvas: {fileID: 0}
   returnHomeButton: {fileID: 0}
+  foodSound: {fileID: 8300000, guid: 8ab1e83182ef91d4e93aefbf7ad72cef, type: 3}
 --- !u!1 &252832197818911972
 GameObject:
   m_ObjectHideFlags: 0

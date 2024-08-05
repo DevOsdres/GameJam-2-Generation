@@ -2786,6 +2786,8 @@ MonoBehaviour:
   - {fileID: 0}
   speed: 5
   rotationSpeed: 5
+  dogSound: {fileID: 8300000, guid: f54c3ee8ed65c9f428f0d056d30ff820, type: 3}
+  comida: {fileID: 0}
 --- !u!1 &3975363646571920780
 GameObject:
   m_ObjectHideFlags: 0
