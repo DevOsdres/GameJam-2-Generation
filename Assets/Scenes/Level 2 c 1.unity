@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 70cc540a53033dc4ea339f642e0ee910, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 0c6b0bc2925db3343bb6978426702858, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -272,7 +272,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_LocalScale.x
@@ -621,7 +621,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_LocalScale.x
@@ -759,7 +759,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_LocalScale.x
@@ -836,7 +836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 252832197818486914, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 252832197818486914, guid: d70e4d48e51a7a642b290027ed012168, type: 3}
       propertyPath: m_LocalPosition.x
@@ -898,7 +898,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_LocalScale.x
@@ -967,7 +967,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7416850226255225950, guid: 95509e2880793204083c2911829841b2, type: 3}
       propertyPath: m_LocalScale.x
