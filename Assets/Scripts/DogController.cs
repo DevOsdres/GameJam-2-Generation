@@ -12,10 +12,12 @@ public class DogController : MonoBehaviour
     private int currentWaypoint = 0;  // Índice del punto de ruta actual
     public float speed = 5f;
     public float rotationSpeed = 5f; // Velocidad de rotación del perrito
+    public AudioClip dogSound;
 
     public GameObject comida;
     void Start()
     {
+        AudioManager2.Instance.PlaySFX(dogSound);
         animatorDog = GetComponent<Animator>();
         StartCoroutine(MoveToWaypoints());
     }

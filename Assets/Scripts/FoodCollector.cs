@@ -10,6 +10,8 @@ public class FoodCollector : MonoBehaviour
     public GameObject levelCompleteCanvas; // Canvas que muestra al completar el nivel
     public Button returnHomeButton; // Botón para regresar al hogar
     private int foodRequired = 10; // Cantidad de comida requerida
+    [SerializeField] private AudioClip foodSound;
+    private bool foodTake = false;
 
     void Start()
     {
@@ -34,12 +36,20 @@ public class FoodCollector : MonoBehaviour
         }
     }
 
+    private void Update() {
+        if (foodTake == true){
+            foodTake = false;
+        }
+    }
+
     void OnTriggerEnter(Collider other)
-    {
+    {  
         Debug.Log("Trigger entered with: " + other.gameObject.name); // Depuración: Nombre del objeto con el que se colisiona
 
         if (other.CompareTag("Food"))
-        {
+        { 
+            AudioManager2.Instance.PlaySFX(foodSound);
+            foodTake = true;
             PlayerProgress.Instance.collectedFoodCount += 1; // Incrementar la cantidad de comida recolectada
             Debug.Log("Food collected: " + PlayerProgress.Instance.collectedFoodCount);
             Destroy(other.gameObject);
@@ -54,6 +64,7 @@ public class FoodCollector : MonoBehaviour
         {
             Debug.Log("Collided object is not tagged as Food");
         }
+
     }
 
     void LevelCompleted()

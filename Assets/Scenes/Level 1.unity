@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: fd81a9dec449a924793e55124274662f, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 2317210203baaf440888da84fc375780, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -9760,6 +9760,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2028910591}
+  - component: {fileID: 2028910592}
   m_Layer: 0
   m_Name: Enviroment
   m_TagString: Untagged
@@ -9792,6 +9793,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2028910592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028910590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b86a9c9222a1d743a77e71b1b01ddbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicLevel: {fileID: 8300000, guid: 271502f81c322d44c8ab34c6af883ba6, type: 3}
 --- !u!1001 &2049209753
 PrefabInstance:
   m_ObjectHideFlags: 0
