@@ -33,11 +33,12 @@ public class AudioManager2 : MonoBehaviour
 
         musicSource.loop = true; 
 
-        LoadVolume();
+        
     }
 
     private void Start() 
     {
+        LoadVolume();
         //musicSource = GetComponent<AudioSource>();    
         //sfxSource = GetComponent<AudioSource>();
 

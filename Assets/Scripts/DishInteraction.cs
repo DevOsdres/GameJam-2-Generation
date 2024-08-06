@@ -10,6 +10,8 @@ public class DishInteraction : MonoBehaviour
     public float foodLifetime = 10f; // Tiempo en segundos antes de que los objetos de comida sean destruidos
     private bool isPlayerNearDish = false;
 
+    [SerializeField] private AudioClip putFood;
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -29,7 +31,8 @@ public class DishInteraction : MonoBehaviour
     void Update()
     {
         if (isPlayerNearDish && Input.GetKeyDown(KeyCode.F))
-        {
+        {   
+            AudioManager2.Instance.PlaySFX(putFood);
             DeliverFood();
         }
     }

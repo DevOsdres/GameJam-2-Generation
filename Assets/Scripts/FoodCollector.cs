@@ -90,7 +90,7 @@ public class FoodCollector : MonoBehaviour
         }
     }
 
-    void ReturnHome()
+    public void ReturnHome()
     {
         Time.timeScale = 1f; // Reanudar el juego antes de cambiar de escena
         SceneManager.LoadScene(1);
