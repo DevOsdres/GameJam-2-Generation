@@ -127,3 +127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dishTransform: {fileID: 4458465610562479355}
   radius: 0.5
+  foodHeightOffset: 0.5
+  foodLifetime: 10
+  putFood: {fileID: 8300000, guid: 12b71029f03d5dd48b6755b9d448c9d3, type: 3}

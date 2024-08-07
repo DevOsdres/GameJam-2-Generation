@@ -1113,6 +1113,7 @@ MonoBehaviour:
   objetivo: {fileID: 0}
   detectionDistance: 10
   isDead: 0
+  atackSound: {fileID: 8300000, guid: 2e85cc8b3f170c74aab82b1a64b3842d, type: 3}
 --- !u!195 &838858414
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -463,6 +463,7 @@ MonoBehaviour:
   rotationSpeed: 5
   detectionDistance: 10
   isDead: 1
+  atackSound: {fileID: 8300000, guid: 2e85cc8b3f170c74aab82b1a64b3842d, type: 3}
 --- !u!136 &2985022322770174420
 CapsuleCollider:
   m_ObjectHideFlags: 0
