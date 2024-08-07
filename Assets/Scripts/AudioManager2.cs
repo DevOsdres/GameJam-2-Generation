@@ -74,11 +74,6 @@ public class AudioManager2 : MonoBehaviour
         sfxSource.PlayOneShot(sfxSource.clip); 
     }
 
-    public void PlaySFXOne(AudioClip sfxClip)
-    {
-        sfxSource.clip = sfxClip;
-        sfxSource.Play(); 
-    }
    public void PlayMusicScene()
     {
         string currentScene = SceneManager.GetActiveScene().name;

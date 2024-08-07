@@ -24,7 +24,6 @@ public class Spider : MonoBehaviour
     private bool isColliding  = false; //con el enemigo
 
     public bool isDead = false;
-    [SerializeField] AudioClip atackSound; 
     // Start is called before the first frame update
     void Start()
     {
@@ -138,11 +137,9 @@ public class Spider : MonoBehaviour
                 if (elegirAtaque == 1)
                 {
                     Attack1();
-                    AudioManager2.Instance.PlaySFXOne(atackSound);
                 }else
                 {
                     Attack2();
-                    AudioManager2.Instance.PlaySFXOne(atackSound);
                 }
             }            
             

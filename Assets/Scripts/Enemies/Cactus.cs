@@ -10,7 +10,6 @@ public class Cactus : MonoBehaviour
     bool isColliding = false;
 
     bool isDead = false;
-    [SerializeField] AudioClip atackSound; 
     private void Start()
     {
         // Buscar al jugador por su tag
@@ -57,7 +56,6 @@ public class Cactus : MonoBehaviour
         {   
             isColliding = true;
             animatorCactus.SetBool("Attack", true);
-            AudioManager2.Instance.PlaySFXOne(atackSound);
             
         }
     }

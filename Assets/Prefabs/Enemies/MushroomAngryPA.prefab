@@ -599,7 +599,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   speed: 5
-  atackSound: {fileID: 8300000, guid: 2e85cc8b3f170c74aab82b1a64b3842d, type: 3}
 --- !u!1 &7992442086744369680
 GameObject:
   m_ObjectHideFlags: 0
