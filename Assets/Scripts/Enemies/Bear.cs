@@ -18,6 +18,7 @@ public class Bear : MonoBehaviour  //algunas variables son de la araña por que 
     private bool isColliding  = false; //con el enemigo
 
     public bool isDead = false;
+    [SerializeField] AudioClip atackSound; 
 
     // Start is called before the first frame update
     void Start()
@@ -132,9 +133,11 @@ public class Bear : MonoBehaviour  //algunas variables son de la araña por que 
                 if (elegirAtaque == 1)
                 {
                     Attack1();
+                    AudioManager2.Instance.PlaySFXOne(atackSound);
                 }else
                 {
                     Attack2();
+                    AudioManager2.Instance.PlaySFX(atackSound);
                 }
             }            
             
@@ -211,12 +214,13 @@ public class Bear : MonoBehaviour  //algunas variables son de la araña por que 
 
         private void Attack1()
         {
+            
             animatorSpider.SetBool("attack1", true);
             animatorSpider.SetBool("attack2", false);
             animatorSpider.SetBool("walk", false);
         }
         private void Attack2()
-        { 
+        {   
             animatorSpider.SetBool("attack2", true);
             animatorSpider.SetBool("attack1", false);
             animatorSpider.SetBool("walk", false);
