@@ -8727,7 +8727,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b86a9c9222a1d743a77e71b1b01ddbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicLevel: {fileID: 8300000, guid: 37782306068571f41862796dbf80085e, type: 3}
 --- !u!1001 &1888585804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10225,6 +10224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StaminaCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2338729550775591580, guid: 3b33ecaff68c24f43879514d121defe2, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2338729550775591581, guid: 3b33ecaff68c24f43879514d121defe2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -10309,6 +10312,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2338729550775591583, guid: 3b33ecaff68c24f43879514d121defe2, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b33ecaff68c24f43879514d121defe2, type: 3}
 --- !u!1001 &2829849610694720957
@@ -10318,6 +10325,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 222696435}
     m_Modifications:
+    - target: {fileID: 2829849609644483664, guid: e4a2166e58deb5a4eb721aa583fc4b08, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829849609644483664, guid: e4a2166e58deb5a4eb721aa583fc4b08, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2829849609644483667, guid: e4a2166e58deb5a4eb721aa583fc4b08, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -10407,6 +10422,14 @@ PrefabInstance:
       value: HealthCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 2829849609644483671, guid: e4a2166e58deb5a4eb721aa583fc4b08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829849610531062570, guid: e4a2166e58deb5a4eb721aa583fc4b08, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829849610531062571, guid: e4a2166e58deb5a4eb721aa583fc4b08, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
