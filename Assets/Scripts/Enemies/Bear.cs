@@ -185,6 +185,15 @@ public class Bear : MonoBehaviour  //algunas variables son de la araña por que 
         isColliding = false;
 
     }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (player.CompareTag("PlayerAttack")) 
+        {
+            Debug.Log("colision con el jugador!!!"); 
+        }            
+    }
+    
     private void DetectEnemy()
     {
         if (player != null)
@@ -225,5 +234,8 @@ public class Bear : MonoBehaviour  //algunas variables son de la araña por que 
             animatorSpider.SetBool("attack1", false);
             animatorSpider.SetBool("walk", false);
         }
+
+    
+
 
 }
