@@ -58,6 +58,6 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Player has died.");
         GetComponent<PlayerController>().Die(); // Reproduce la animación de muerte
         Time.timeScale = 0f; // Pausa el juego
-        SceneManager.LoadScene("GameOver"); // Asegúrate de que la escena se llame correctamente
+        SceneManager.LoadScene(5);
     }
 }
