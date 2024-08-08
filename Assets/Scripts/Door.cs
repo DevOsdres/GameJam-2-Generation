@@ -71,9 +71,21 @@ public class Door : MonoBehaviour
     void ShowConfirmation()
     {
         Cursor.visible = true;
-        int targetLevel = PlayerProgress.Instance.currentLevel + 1;
         confirmationCanvas.gameObject.SetActive(true);
-        confirmationText.text = $"Enter to Level {targetLevel}. You are about to leave your home, you will leave your children without knowing if you will return, are you sure about this?";
+        
+        if (PlayerProgress.Instance.currentLevel == 0)
+        {
+            confirmationText.text = "Enter to Level 1. Are you sure you want to leave home for the first time?";
+        }
+        else if (PlayerProgress.Instance.currentLevel == 3)
+        {
+            confirmationText.text = "You have completed all levels. Do you want to end the game and go to GameWin?";
+        }
+        else
+        {
+            int targetLevel = PlayerProgress.Instance.currentLevel + 1;
+            confirmationText.text = $"Enter to Level {targetLevel}. You are about to leave your home, you will leave your children without knowing if you will return, are you sure about this?";
+        }
     }
 
     void OnAccept()
@@ -91,15 +103,23 @@ public class Door : MonoBehaviour
         Debug.Log("First Time Leaving Home: " + PlayerProgress.Instance.firstTimeLeavingHome);
 
         // Permitir avanzar si es la primera vez que se sale del "Home" o si se ha completado el nivel y entregado comida
-        if (PlayerProgress.Instance.firstTimeLeavingHome ||
+        if (PlayerProgress.Instance.firstTimeLeavingHome || 
             (PlayerProgress.Instance.hasCompletedLevel && PlayerProgress.Instance.HasDeliveredFood()))
         {
             PlayerProgress.Instance.firstTimeLeavingHome = false; // Solo se debe establecer en falso si se está saliendo por primera vez
             PlayerProgress.Instance.IncrementLevel();
             Debug.Log("Loading Level: " + PlayerProgress.Instance.currentLevel);
 
-            // Cargar la siguiente escena según el índice
-            SceneManager.LoadScene(targetLevel + 1);
+            if (PlayerProgress.Instance.currentLevel <= 3)
+            {
+                // Cargar la siguiente escena según el índice
+                SceneManager.LoadScene(targetLevel + 1);
+            }
+            else
+            {
+                // Cargar GameWin si se completaron todos los niveles
+                SceneManager.LoadScene(6);
+            }
         }
         else
         {
