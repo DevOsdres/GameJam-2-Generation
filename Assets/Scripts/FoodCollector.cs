@@ -44,14 +44,14 @@ public class FoodCollector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {  
-        Debug.Log("Trigger entered with: " + other.gameObject.name); // Depuración: Nombre del objeto con el que se colisiona
+        //Debug.Log("Trigger entered with: " + other.gameObject.name); // Depuración: Nombre del objeto con el que se colisiona
 
         if (other.CompareTag("Food"))
         { 
             AudioManager2.Instance.PlaySFX(foodSound);
             foodTake = true;
             PlayerProgress.Instance.collectedFoodCount += 1; // Incrementar la cantidad de comida recolectada
-            Debug.Log("Food collected: " + PlayerProgress.Instance.collectedFoodCount);
+            //Debug.Log("Food collected: " + PlayerProgress.Instance.collectedFoodCount);
             Destroy(other.gameObject);
 
             if (PlayerProgress.Instance.collectedFoodCount >= foodRequired)
@@ -62,7 +62,7 @@ public class FoodCollector : MonoBehaviour
         }
         else
         {
-            Debug.Log("Collided object is not tagged as Food");
+            //Debug.Log("Collided object is not tagged as Food");
         }
 
     }

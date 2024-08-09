@@ -28,12 +28,14 @@ public class PlayerController : MonoBehaviour
     public Slider staminaSlider; // Referencia al Slider de UI
     private bool isDefending = false;
     private bool isRunning;
+    public GameObject attackDetection;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         currentStamina = stamina;
+        attackDetection.SetActive(false);
 
         // Configurar el Slider de estamina
         if (staminaSlider != null)
@@ -78,6 +80,8 @@ public class PlayerController : MonoBehaviour
         if (!isPlaying("Attack"))
         {
             isAttacking = false;
+            attackDetection.SetActive(false);
+
         }
 
         Rotate();
@@ -124,9 +128,11 @@ public class PlayerController : MonoBehaviour
         {
             AudioManager2.Instance.PlaySFX(atackSound);
             isAttacking = true;
+            attackDetection.SetActive(true);
             animator.SetTrigger("Attack");
         }
     }
+
 
     void HandleDefend()
     {

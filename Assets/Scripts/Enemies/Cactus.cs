@@ -94,4 +94,22 @@ public class Cactus : MonoBehaviour
             //transform.position += direction * speed * Time.deltaTime;
         }
     }
+
+        void OnTriggerEnter(Collider other)
+    {
+        // Verifica si el objeto con el que choca es el AttackDetection
+        if (other.gameObject.CompareTag("AttackDetection"))
+        {
+            // Lógica cuando el enemigo choca con el trigger
+            dead();
+
+            
+        }
+    }
+
+    private void dead()
+    {
+        animatorCactus.SetBool("dead", true);
+        isDead = true;
+    }
 }

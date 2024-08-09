@@ -15,9 +15,7 @@ public class Spider : MonoBehaviour
     private GameObject player;
     private Animator animatorSpider; 
     private Vector3 startPos;
-    private Rigidbody enemyRb;
-
-    
+    private Rigidbody enemyRb;    
     public Transform objetivo;
     private NavMeshAgent agente;
     public float detectionDistance;
@@ -88,6 +86,18 @@ public class Spider : MonoBehaviour
         
 
 
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        // Verifica si el objeto con el que choca es el AttackDetection
+        if (other.gameObject.CompareTag("AttackDetection"))
+        {
+            // Lógica cuando el enemigo choca con el trigger
+            dead();
+
+            
+        }
     }
 
     void MoveTowardsWaypoint()
@@ -267,5 +277,10 @@ public class Spider : MonoBehaviour
     }
 
 
+    private void dead()
+    {
+        animatorSpider.SetBool("dead", true);
+        isDead = true;
+    }
 
 }

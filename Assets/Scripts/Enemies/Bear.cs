@@ -76,6 +76,19 @@ public class Bear : MonoBehaviour  //algunas variables son de la araña por que 
 
     }
 
+
+    void OnTriggerEnter(Collider other)
+    {
+        // Verifica si el objeto con el que choca es el AttackDetection
+        if (other.gameObject.CompareTag("AttackDetection"))
+        {
+            // Lógica cuando el enemigo choca con el trigger
+            dead();
+
+            
+        }
+    }
+
     void MoveTowardsWaypoint()
     {
         // Obtener la dirección hacia el punto de ruta actual
@@ -186,13 +199,6 @@ public class Bear : MonoBehaviour  //algunas variables son de la araña por que 
 
     }
 
-    void OnTriggerEnter(Collider collision)
-    {
-        if (player.CompareTag("PlayerAttack")) 
-        {
-            Debug.Log("colision con el jugador!!!"); 
-        }            
-    }
     
     private void DetectEnemy()
     {
@@ -235,7 +241,11 @@ public class Bear : MonoBehaviour  //algunas variables son de la araña por que 
             animatorSpider.SetBool("walk", false);
         }
 
-    
+    private void dead()
+    {
+        animatorSpider.SetBool("dead", true);
+        isDead = true;
+    }
 
 
 }
