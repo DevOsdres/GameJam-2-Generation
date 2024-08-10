@@ -2282,6 +2282,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8dbaaaf52a5a8df409e0b8b7bd3bf90d, type: 3}
   - {fileID: 8300000, guid: b08ca15ff47700f49a7c4fc953d989ef, type: 3}
   - {fileID: 8300000, guid: 3005d2a5d0118c64db38f58e89155caf, type: 3}
+  - {fileID: 8300000, guid: 24a12979a07cfec4b90d29bfe64b4a5f, type: 3}
   sceneNames:
   - MainMenu
   - Home pruebas
@@ -2289,6 +2290,7 @@ MonoBehaviour:
   - Level 2 c 1
   - Level3
   - GameOver
+  - GameWin
 --- !u!1 &1201660337
 GameObject:
   m_ObjectHideFlags: 0
