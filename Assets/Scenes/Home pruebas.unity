@@ -6420,7 +6420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press "F" to serve to food
+  m_text: Press "F" to serve the food
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 013d87b2f7a881b4199e8baa64a8c8a8, type: 2}
   m_sharedMaterial: {fileID: -4540798989997132842, guid: 013d87b2f7a881b4199e8baa64a8c8a8, type: 2}
